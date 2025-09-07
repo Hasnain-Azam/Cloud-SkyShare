@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: skyshare-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: skyshare
+    ports: ["5433:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/skyshare
+      NODE_ENV: production
+      JWT_SECRET: supersecretjwt # replace with a long random string
+    ports: ["4000:4000"]
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["npm", "run", "start"]
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: "http://localhost:4000"
+    ports: ["5173:80"]
+    depends_on: [backend]
+
+volumes:
+  pgdata:

@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: skyshare-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: skyshare
+    ports:
+      - "5433:5432"        # host:container
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: skyshare-backend
+    env_file:
+      - ./backend/.env
+    environment:
+      # IMPORTANT: inside containers, "db" is the hostname for Postgres
+      DATABASE_URL: postgres://postgres:postgres@db:5432/skyshare
+      NODE_ENV: development
+    ports:
+      - "4000:4000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/src:/app/src
+    command: ["npm", "run", "dev"]
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # The browser will hit the backend via the host's 4000 mapping.
+        # Keep this as localhost:4000 for local dev.
+        VITE_API_URL: "http://localhost:4000"
+    container_name: skyshare-frontend
+    ports:
+      - "5173:80"   # host:container (serve built app on http://localhost:5173)
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
