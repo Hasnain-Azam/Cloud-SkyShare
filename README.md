@@ -8,7 +8,7 @@
 - Download limits (e.g., max 3 downloads per link)  
 - Responsive frontend built with Tailwind CSS  
 
-## 🖥️ 
+## 🖥️ Visuals
 <p align="center">
   <img src="docs/screenshots/login.png" width="400"/>
   <img src="docs/screenshots/dashboard.png" width="400"/>
