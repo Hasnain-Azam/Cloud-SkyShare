@@ -17,8 +17,8 @@ The platform is built for clarity and maintainability, with a focus on authentic
 
 ## 🖥️ Visuals
 <p align="center">
-  <img src="docs/screenshots/dashboard.png" width="440"/>
-  <img src="docs/screenshots/login.png" width="420"/>
+  <img src="docs/screenshots/dashboard.png" width="425"/>
+  <img src="docs/screenshots/login.png" width="410"/>
 </p>
 
 ##  Tech Stack
