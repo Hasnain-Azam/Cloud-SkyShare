@@ -10,8 +10,8 @@
 
 ## 🖥️ Visuals
 <p align="center">
-  <img src="docs/screenshots/dashboard.png" width="420"/>
-  <img src="docs/screenshots/login.png" width="400"/>
+  <img src="docs/screenshots/dashboard.png" width="520"/>
+  <img src="docs/screenshots/login.png" width="500"/>
 </p>
 
 ##  Tech Stack
